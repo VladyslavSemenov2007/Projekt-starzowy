@@ -11,7 +11,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      
+      - name: Install and Build
+        # Dodajemy 'working-directory', aby GitHub wiedział, gdzie jest package.json
+        working-directory: frontend 
+        run: |
+          npm ci
+          npm run build
       - name: Configure Node
         uses: actions/setup-node@v1
         with:
