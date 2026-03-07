@@ -1,28 +1,2 @@
-name: Deploy to Github Pages
-on:  # trigger po
-  push: # wypchnięciu kodu do
-    branches: # galążi
-      - main
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    concurrency: ci-${{github.ref}} #prevent multiple deployments
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Configure Node
-        uses: actions/setup-node@v1
-        with:
-            node-version: "12.18.4"
-      - name: Install
-        run:
-          npm ci
-          npm run build
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: frontend/build
-          branch: gh-pages
 
 
