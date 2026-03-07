@@ -1,2 +1,3 @@
 # Projekt-starzowy
-Projekt stażowy: GDPR-Compliant Web App 
+Projekt stażowy: GDPR-Compliant Web App
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

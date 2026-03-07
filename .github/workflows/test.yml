@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"] # Wyzwala akcję po pushu do main
+
+# Uprawnienia potrzebne do zapisu na GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kodu
+        uses: actions/checkout@v4
+
+      - name: Konfiguracja Pages
+        uses: actions/configure-pages@v4
+
+      - name: Przesłanie plików (Upload artifact)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # "." oznacza, że wysyłamy całe repozytorium (dla statycznych stron)
+          # Jeśli masz folder build/dist, zmień ścieżkę poniżej
+          path: '.'
+
+      - name: Wdrożenie na GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
