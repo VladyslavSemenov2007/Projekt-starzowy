@@ -1,0 +1,7 @@
+{
+    "name": "moja-strona-www",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "mkdir -p build && cp index.html style.css script.js build/"
+}
+}
