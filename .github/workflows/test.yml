@@ -1,34 +1,26 @@
 name: Deploy to Github Pages
-on:
-  push:
-    branches:
+on:  # trigger po
+  push: # wypchnięciu kodu do
+    branches: # galążi
       - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    concurrency: ci-${{github.ref}}
+    concurrency: ci-${{github.ref}} #prevent multiple deployments
     steps:
-      # 1. NAJPIERW POBIERAMY KOD
       - name: Checkout
-        uses: actions/checkout@v4
-
-      # 2. POTEM USTAWIAMY NODE.JS
+        uses: actions/checkout@v2
       - name: Configure Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v1
         with:
-          node-version: "20" # Używamy nowszej wersji, 12 jest już przestarzała
-
-      # 3. INSTALUJEMY I BUDUJEMY W FOLDERZE FRONTEND
-      - name: Install and Build
-        working-directory: frontend 
-        run: |
+            node-version: "12.18.4"
+      - name: Install
+        run:
           npm ci
           npm run build
-
-      # 4. WYSYŁAMY NA STRONĘ
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: frontend/build
+          folder: build
           branch: gh-pages
