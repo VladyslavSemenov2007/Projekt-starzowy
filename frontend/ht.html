@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        span {color : blue}
+        div {color: red;font-family: Georgia, 'Times New Roman', Times, serif;}
+    </style>
+    <script>
+        function fun()
+        {
+            const main = document.querySelectorAll("#main");
+            for (const a of main)
+            {
+                if (a.innerHTML == "<span>aaa</span>")
+                {
+                    a.innerHTML = "<div>aaa</div>";
+                }
+            else{a.innerHTML = "<span>aaa</span>"}
+            }
+        }
+        function make()
+        {
+            const father = document.querySelector("div");
+            const son = document.createElement("h1");
+            son.id = "main";
+            son.innerHTML = "<div>aaa</div>";
+            father.appendChild(son);
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <h1 id="main"><span>MAIN</span></h1>
+        <h1 id="main"><span>MAIN</span></h1>
+        <h1 id="main"><span>MAIN</span></h1>
+        <h1 id="main"><span>MAIN</span></h1>
+        <h1 id="main"><span>MAIN</span></h1>
+    </div>
+    <button onclick="fun()">button</button>
+    <button onclick="make()">make</button>
+</body>
+</html>
