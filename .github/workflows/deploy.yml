@@ -3,7 +3,6 @@ on:
   push:
     branches: ["main"]
 
-# To zapobiega konfliktom podczas wielu wdrożeń naraz
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -29,8 +28,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.' 
+          path: '.frontend' 
 
       - name: Deploy to GitHub Pages
-        id: deployment # Dodane ID, aby pobrać adres URL strony
+        id: deployment
         uses: actions/deploy-pages@v4
