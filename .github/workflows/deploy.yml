@@ -2,6 +2,8 @@ name: cicd #####
 on: 
   push:
     branches: ["main"]
+    paths: ["backend/**"]  #  trigger in case backend changed
+
 
 concurrency:
   group: "pages"
