@@ -1,8 +1,8 @@
-name: cicd #####
+name: Deploy Frontend
 on: 
   push:
     branches: ["main"]
-    paths: ["backend/**"]  #  trigger in case backend changed
+    paths: ["frontend/**"]  #  trigger in case frontend changed
 
 
 concurrency:
