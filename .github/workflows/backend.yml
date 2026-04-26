@@ -15,22 +15,26 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v4 # checkout repository so workflow has acces
 
     - name: Setup Node
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v4 # add NODE.js
       with:
-        node-version: ${{ env.NODE_VERSION }}
+        node-version: ${{ env.NODE_VERSION }} ## podaj wersje NODE.js
 
     - name: Install dependencies
       run: |
         cd ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         npm ci
-
+      ## wybierz plik
+      ## install dependencies
     - name: Build
       run: |
         cd ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         npm run build --if-present
+      ## wybierz plik
+      ## szuki plik build i wykonuje go?
+
 
     - name: Deploy to Azure Functions
       uses: Azure/functions-action@v1
