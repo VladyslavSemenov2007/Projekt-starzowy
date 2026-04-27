@@ -10,6 +10,13 @@
     </style>
 </head>
 <body>
-    <button>check API H</button>
+    <button onclick="klik()">check API</button>
 </body>
 </html>
+<script>
+    const API_URL = "https://gdpr-backend.azurewebsites.net/api"
+    function klik()
+    {
+        fetch(API_URL + "/health")
+    }
+</script>
