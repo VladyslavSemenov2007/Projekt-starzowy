@@ -23,7 +23,7 @@
         const url = "https://gdpr-backend-c6cphvg2c9g0bzbu.polandcentral-01.azurewebsites.net/api/health";
         const response = await fetch(url);
         if (response.ok){
-            wynikk.innerText = "OKAY";
+            wynikk.innerText = response;
             const data = await response.json();
         }
     }
