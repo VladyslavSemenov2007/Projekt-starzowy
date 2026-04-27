@@ -11,18 +11,18 @@
 </head>
 <body>
     <button onclick="klik()">check API</button>
-    <div>AAA</div>
+    <div id="wynik">wynik</div>
 </body>
 </html>
 <script>
     const API_URL = "https://gdpr-backend.azurewebsites.net/api";
-
+    const wynikk = document.getElementById("wynik");
     async function klik()
     {
-        console.log("klik")
-        const response = fetch(API_URL + "/health")
+        wynikk.innerHTML = "KLIKNIĘTE";
+        const response = await fetch(`${API_URL}/health`);
         if (response.ok){
-            console.log("OK")
+            wynikk.innerText("OKEJ")
             const data = await response.json();
         }
     }
