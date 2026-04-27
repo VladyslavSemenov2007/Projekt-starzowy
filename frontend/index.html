@@ -21,7 +21,7 @@
     {
         wynikk.innerText = "KLIKNOLEŚ";
         const health = API_URL + "/health";
-        console.log(url);
+        console.log(health);
         const response = await fetch(health);
         if (response.ok){
             wynikk.innerText = response;
