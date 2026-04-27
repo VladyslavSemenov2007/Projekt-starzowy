@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-    <button onclick="klik()">check API + polish</button>
+    <button onclick="klik()">check API*</button>
     <div id="wynik">wynikk + poland + working inner text</div>
 </body>
 </html>
@@ -19,12 +19,13 @@
     const wynikk = document.getElementById("wynik");
     async function klik()
     {
-        wynikk.innerText = "KLIKNIĘTE";
+        wynikk.innerText = "KLIK";
         const url = "https://gdpr-backend-c6cphvg2c9g0bzbu.polandcentral-01.azurewebsites.net/api/health";
         const response = await fetch(url);
         if (response.ok){
             wynikk.innerText = response;
             const data = await response.json();
+            wynikk.innerText = data;
         }
     }
 </script>
