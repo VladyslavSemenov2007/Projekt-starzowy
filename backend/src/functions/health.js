@@ -5,8 +5,8 @@ app.http('health', {
     authLevel: 'anonymous',
     handler: async (request, context) => {
         return {
-            status: 200,
-            jsonBody: { status: 'ok' }
+            status: 100,
+            jsonBody: { status: 'okk' }
         };
     }
 });
