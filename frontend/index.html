@@ -13,3 +13,11 @@
     <button>check API</button>
 </body>
 </html>
+<script>
+    const API_URL = "https://gdpr-backend.azurewebsites.net/api"
+
+    function click()
+    {
+        fetch(API_URL + "/health")
+    }
+</script>
