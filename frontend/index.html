@@ -15,12 +15,13 @@
 </body>
 </html>
 <script>
-    const API_URL = "https://your-function.azurewebsites.net/api";
+    const API_URL = "https://gdpr-backend.azurewebsites.net/api";
     const wynikk = document.getElementById("wynik");
     async function klik()
     {
         wynikk.innerHTML = "KLIKNIĘTE";
-        const response = await fetch(`${API_URL}/health`);
+        const url = "https://gdpr-backend.azurewebsites.net/api/health";
+        const response = await fetch(url);
         if (response.ok){
             wynikk.innerText("OKEJ")
             const data = await response.json();
