@@ -11,7 +11,7 @@
 </head>
 <body>
     <button onclick="klik()">check API</button>
-    <div id="wynik">wynik</div>
+    <div id="wynik">wynikk poland</div>
 </body>
 </html>
 <script>
@@ -20,7 +20,7 @@
     async function klik()
     {
         wynikk.innerHTML = "KLIKNIĘTE";
-        const url = "https://gdpr-backend.azurewebsites.net/api/health";
+        const url = "https://gdpr-backend-c6cphvg2c9g0bzbu.polandcentral-01.azurewebsites.net/api/health";
         const response = await fetch(url);
         if (response.ok){
             wynikk.innerText("OKEJ")
