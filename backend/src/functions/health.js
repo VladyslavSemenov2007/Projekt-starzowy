@@ -6,7 +6,7 @@ app.http('health', {
     handler: async (request, context) => {
         return {
             status: 200,
-            jsonBody: { status: 'okay' }
+            jsonBody: { status: 'alright' }
         };
     }
 });
