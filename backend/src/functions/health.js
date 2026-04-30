@@ -15,7 +15,7 @@ app.http('health', {
         } catch (error) {
             return {
                 status: 500,
-                jsonBody: { status: 'ok', db: 'error', message: error.message }
+                jsonBody: { status: 'not ok', db: 'error', message: error.message }
             };
         }
     }
