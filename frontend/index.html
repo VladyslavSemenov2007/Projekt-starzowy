@@ -40,12 +40,12 @@
             const data = await response.json();
             wynikk1.innerText = data.status
             wynikk2.innerText = data.db
-            wynikk3.innerText = data.message[0];
+            wynikk3.innerText = data.message;
             console.log(data);
             console.log(response);
             console.log(data.db);
             console.log(data.status);
-            console.log(data.message[0]);
+            console.log(data.message);
         }
     }
 </script>
