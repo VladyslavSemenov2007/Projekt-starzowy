@@ -10,7 +10,8 @@
     </style>
 </head>
 <body>
-    <button onclick="klik()">check API***</button>
+    <button onclick=klik("/health")>health</button>
+    <button onclick=klik("/records")>records</button>
     <div id="wynik">NIE KLIKALEŚ</div>
     <div id="add record">
         <div id="imie"><p>imie</p><input type="text" name="imie"/></div>
@@ -24,10 +25,10 @@
 <script>
     const API_URL = "https://gdpr-backend-c6cphvg2c9g0bzbu.polandcentral-01.azurewebsites.net/api";
     const wynikk = document.getElementById("wynik");
-    async function klik()
+    async function klik(type)
     {
-        wynikk.innerText = "KLIKNOLEŚ";
-        const health = API_URL + "/health";
+        wynikk.innerText = type;
+        const health = API_URL + type;
         const response = await fetch(health);
         if (response.ok){
             wynikk.innerText = response;

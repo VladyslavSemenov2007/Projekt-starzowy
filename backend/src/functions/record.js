@@ -11,7 +11,7 @@ app.http('records', {
 
             return {
                 status: 200,
-                jsonBody: { status: result, db: 'connected', message: result.recordset}
+                jsonBody: { status: "ok", db: 'connected', message: result.recordset}
             };
         } catch (error) {
             return {
