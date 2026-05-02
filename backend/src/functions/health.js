@@ -10,7 +10,7 @@ app.http('health', {
             const result = await pool.request().query('SELECT 1');
             return {
                 status: 200,
-                jsonBody: { status: "ok", db: 'connected',message: result.recordsets}
+                jsonBody: { status: "ok", db: 'connected',message: result.recordset}
             };
         } catch (error) {
             return {

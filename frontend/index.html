@@ -12,7 +12,10 @@
 <body>
     <button onclick=klik("/health")>health</button>
     <button onclick=klik("/records")>records</button>
-    <div id="wynik">NIE KLIKALEŚ</div>
+    <div id="wynik">null</div>
+    <div id="response1">null</div>
+    <div id="response2">null</div>
+    <div id="response3">null</div>
     <div id="add record">
         <div id="imie"><p>imie</p><input type="text" name="imie"/></div>
         <div id="email"><p>email</p><input type="email" name="email"/></div>
@@ -25,18 +28,23 @@
 <script>
     const API_URL = "https://gdpr-backend-c6cphvg2c9g0bzbu.polandcentral-01.azurewebsites.net/api";
     const wynikk = document.getElementById("wynik");
+    const wynikk1 = document.getElementById("response1");
+    const wynikk2 = document.getElementById("response2");
+    const wynikk3 = document.getElementById("response3");
     async function klik(type)
     {
         wynikk.innerText = type;
         const health = API_URL + type;
         const response = await fetch(health);
         if (response.ok){
-            wynikk.innerText = response;
+            wynikk1.innerText = response.status
+            wynikk2.innerText = response.db
+            wynikk3.innerText = response.message;
             const data = await response.json();
             console.log(data);
             console.log(response);
             console.log(response.status);
-            console.log(response.ok);
+            console.log(response.db);
         }
     }
 </script>
