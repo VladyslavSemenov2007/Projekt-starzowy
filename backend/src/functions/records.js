@@ -72,7 +72,7 @@ app.http('records2', {
       // POPRAWKA: Zwracamy obiekt result.recordset[0], a nie tablicę w polu data
       return {
         status: 200,
-        jsonBody: result.recordset[0],
+        jsonBody: { data: result.recordset[0] },
       };
     } catch (error) {
       context.log(error);

@@ -53,9 +53,17 @@
             console.log(data)
             if (type = "/records")
             {
-            wynikk1.innerText = data.total;
-            wynikk2.innerText = data.limit;
-            wynikk3.innerText = data.page;
+            if (newid == 0)
+            {
+                wynikk1.innerText = data.total;
+                wynikk2.innerText = data.limit;
+                wynikk3.innerText = data.page;
+            }
+            else{
+                wynikk1.innerText = data.data;
+                wynikk2.innerText = data.data;
+                wynikk3.innerText = data.data;
+            }
             console.log(data.data)
             /////       jsonBody: {data: result.recordset,total,page,limit,},
             }
