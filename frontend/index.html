@@ -60,12 +60,11 @@
                 wynikk3.innerText = data.page;
             }
             else{
-                wynikk1.innerText = data.data;
-                wynikk2.innerText = data.data;
-                wynikk3.innerText = data.data;
+                wynikk1.innerText = data.data.name;
+                wynikk2.innerText = data.data.phone;
+                wynikk3.innerText = data.data.phone;
             }
             console.log(data.data)
-            /////       jsonBody: {data: result.recordset,total,page,limit,},
             }
         }
     }
