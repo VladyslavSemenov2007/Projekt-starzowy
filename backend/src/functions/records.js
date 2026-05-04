@@ -1,6 +1,12 @@
 const { app } = require('@azure/functions');
 const { getPool, sql } = require('../db');
 
+function isGuid(value) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+    value
+  );
+}
+
 app.http('records', {
   methods: ['GET'],
   authLevel: 'anonymous',
@@ -45,26 +51,25 @@ app.http('records', {
   },
 });
 
-/// druga wersja z id
-
-app.http('records2', {
+app.http('getRecordById', {
   methods: ['GET'],
-  route: 'records/{id}', // Endpoint: /api/records/123
+  route: 'records/{id}',
   authLevel: 'anonymous',
   handler: async (request, context) => {
     try {
       const id = request.params.id;
-      if (!id) {
-        return { status: 400, jsonBody: { error: 'ID is required' } };
+      if (!isGuid(id)) {
+        return {
+          status: 404,
+          jsonBody: { error: 'Record not found' },
+        };
       }
-
       const pool = await getPool();
       const result = await pool
         .request()
-        .input('id', sql.VarChar, id)
+        .input('id', sql.UniqueIdentifier, id)
         .query('SELECT * FROM records WHERE id = @id');
-
-      if (!result.recordset || result.recordset.length === 0) {
+      if (result.recordset.length === 0) {
         return {
           status: 404,
           jsonBody: { error: 'Record not found' },
