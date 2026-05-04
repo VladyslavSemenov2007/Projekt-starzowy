@@ -49,36 +49,37 @@ app.http('records', {
 
 app.http('records2', {
   methods: ['GET'],
-  route: 'records/{id}',
+  route: 'records/{id}', // Endpoint: /api/records/123
   authLevel: 'anonymous',
   handler: async (request, context) => {
     try {
       const id = request.params.id;
-      const pool = await getPool();
+      if (!id) {
+        return { status: 400, jsonBody: { error: 'ID is required' } };
+      }
 
+      const pool = await getPool();
       const result = await pool
         .request()
-        .input('idd', sql.VarChar, id)
-        // POPRAWKA: W zapytaniu musi być @idd, aby odwołać się do parametru
-        .query('SELECT * FROM records WHERE id = @idd');
+        .input('id', sql.VarChar, id)
+        .query('SELECT * FROM records WHERE id = @id');
 
-      if (result.recordset.length === 0) {
+      if (!result.recordset || result.recordset.length === 0) {
         return {
           status: 404,
           jsonBody: { error: 'Record not found' },
         };
       }
 
-      // POPRAWKA: Zwracamy obiekt result.recordset[0], a nie tablicę w polu data
       return {
         status: 200,
         jsonBody: { data: result.recordset[0] },
       };
     } catch (error) {
-      context.log(error);
+      context.log(`Error in records2: ${error.message}`);
       return {
-        status: 500, // Zmieniono z 422 na 500 (błąd serwera)
-        jsonBody: { error: 'internal error' },
+        status: 500,
+        jsonBody: { error: 'Internal server error' },
       };
     }
   },
