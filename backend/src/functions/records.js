@@ -60,8 +60,8 @@ app.http('getRecordById', {
       const id = request.params.id;
       if (!isGuid(id)) {
         return {
-          status: 404,
-          jsonBody: { error: 'Record not found' },
+          status: 400,
+          jsonBody: { error: 'Uid is not valid' },
         };
       }
       const pool = await getPool();
@@ -114,15 +114,20 @@ function IsValidName(value) {
 }
 
 function validation(b) {
-  if (
-    !IsValidEmail(b.email) ||
-    !IsValidName(b.name) ||
-    !isValidPhoneNumber(b.phone) ||
-    !IsValidPurpose(b.purpose)
-  ) {
-    return false;
+  const errors = [];
+  if (!IsValidEmail(b.email)) {
+    errors.push('email: invalid or missing');
   }
-  return true;
+  if (!IsValidName(b.name)) {
+    errors.push('name: invalid or missing');
+  }
+  if (!isValidPhoneNumber(b.phone)) {
+    errors.push('phone: invalid or missing');
+  }
+  if (!IsValidPurpose(b.purpose)) {
+    errors.push('purpose: invalid or missing');
+  }
+  return errors;
 }
 app.http('createRecord', {
   methods: ['POST'],
@@ -132,21 +137,13 @@ app.http('createRecord', {
     try {
       const body = await request.json();
       // TODO: add validation
-      // - name: required, max 255 chars
-      // - email: required, valid format
-      // - purpose: required, max 500 chars
-      // - phone: optional, max 50 chars
-      // return 400 with { error: '...' } if invalid
-      if (!validation(body)) {
+      const errors = validation(body);
+      if (errors.length > 0) {
         return {
           status: 400,
-          jsonBody: { error: 'failed verification' },
+          jsonBody: errors,
         };
       }
-      return {
-        status: 200,
-        jsonBody: { error: 'passed verification' },
-      };
       const { name, email, phone, purpose } = body;
 
       const pool = await getPool();
@@ -160,6 +157,12 @@ app.http('createRecord', {
           OUTPUT INSERTED.*
           VALUES (@name, @email, @phone, @purpose)
         `);
+      if (result.recordset.length === 0) {
+        return {
+          status: 404,
+          jsonBody: { error: 'Record not found' },
+        };
+      }
 
       return {
         status: 201,
@@ -176,7 +179,7 @@ app.http('createRecord', {
 });
 
 app.http('updateRecord', {
-  methods: ['POST'],
+  methods: ['PUT'],
   route: 'records/{id}',
   authLevel: 'anonymous',
   handler: async (request, context) => {
@@ -184,26 +187,32 @@ app.http('updateRecord', {
       const id = request.params.id;
       if (!isGuid(id)) {
         return {
-          status: 404,
-          jsonBody: { error: 'Record not found' },
+          status: 400,
+          jsonBody: { error: 'UID is not valid' },
         };
       }
       const body = await request.json();
-      // TODO: add validation
-      // - name: required, max 255 chars
-      // - email: required, valid format
-      // - purpose: required, max 500 chars
-      // - phone: optional, max 50 chars
-      // return 400 with { error: '...' } if invalid
-      if (!validation(body)) {
+      ///     !IsValidEmail(b.email) ||!IsValidName(b.name) ||!isValidPhoneNumber(b.phone) ||!IsValidPurpose(b.purpose);
+      const errors = validation(body);
+      if (errors.length > 0) {
         return {
           status: 400,
-          jsonBody: { error: 'failed verification' },
+          jsonBody: errors,
         };
       }
       const { name, email, phone, purpose } = body;
 
       const pool = await getPool();
+      const check = await pool
+        .request()
+        .input('id', sql.UniqueIdentifier, id)
+        .query('SELECT * FROM records WHERE id = @id');
+      if (check.recordset.length === 0) {
+        return {
+          status: 404,
+          jsonBody: { error: 'Record not found' },
+        };
+      }
       const result = await pool
         .request()
         .input('id', sql.UniqueIdentifier, id)
@@ -219,6 +228,50 @@ app.http('updateRecord', {
       return {
         status: 201,
         jsonBody: { data: result.recordset[0] },
+      };
+    } catch (error) {
+      context.log(error);
+      return {
+        status: 500,
+        jsonBody: { error: 'internal error' },
+      };
+    }
+  },
+});
+
+app.http('DeleteRecord', {
+  methods: ['DELETE'],
+  route: 'records/{id}',
+  authLevel: 'anonymous',
+  handler: async (request, context) => {
+    try {
+      const id = request.params.id;
+      if (!isGuid(id)) {
+        return {
+          status: 400,
+          jsonBody: { error: 'UID is not valid' },
+        };
+      }
+      const pool = await getPool();
+      const check = await pool
+        .request()
+        .input('id', sql.UniqueIdentifier, id)
+        .query('SELECT * FROM records WHERE id = @id');
+      if (check.recordset.length === 0) {
+        return {
+          status: 404,
+          jsonBody: { error: 'Record not found' },
+        };
+      }
+      const result = await pool.request().input('id', sql.UniqueIdentifier, id)
+        .query(`
+          DELETE FROM records
+          OUTPUT deleted.*
+          WHERE id = @id`);
+
+      return {
+        status: 201,
+        jsonBody: { status: 'ok' },
       };
     } catch (error) {
       context.log(error);
