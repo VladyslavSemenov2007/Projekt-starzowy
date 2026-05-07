@@ -20,11 +20,12 @@
     <div id="wynik">null</div>
     <div id="response1">null</div>
     <div id="response2">null</div>
+    <div id="response3">null</div>
     <div id="add record">
-        <div id="imie"><p>imie</p><input type="text" name="imie"/></div>
-        <div id="email"><p>email</p><input type="email" name="email"/></div>
-        <div id="telephone"><p>telefon</p><input type="number" name="telefone"/></div>
-        <div id="purpose"><p>cel pszetwarzania</p><input type="text" name="cel pszetwarzania"/></div>
+        <div id="name"><p>imie</p><input type="text" name="imie" id="iname"></div>
+        <div id="email"><p>email</p><input type="email" name="email" id="iemail"></div>
+        <div id="telephone"><p>telefon</p><input type="number" name="telefone" id="itelephone"></div>
+        <div id="purpose"><p>cel pszetwarzania</p><input type="text" name="cel pszetwarzania" id="ipurpose"></div>
         <input type="button" value="send" />
     </div>
 </body>
@@ -34,10 +35,11 @@
     const wynikk = document.getElementById("wynik");
     const wynikk1 = document.getElementById("response1");
     const wynikk2 = document.getElementById("response2");
-    const iname = document.getElementById("imie");
-    const iemail = document.getElementById("email");
-    const iphone = document.getElementById("phone");
-    const ipurpose = document.getElementById("purpose");
+    const wynikk3 = document.getElementById("response3");
+    const iname = document.getElementById("iname");
+    const iemail = document.getElementById("iemail");
+    const iphone = document.getElementById("iphone");
+    const ipurpose = document.getElementById("ipurpose");
     async function klik(type)
     {
         const pages = document.getElementById("pages").value;
@@ -72,11 +74,3 @@
         }
     }
 </script>
-
-
-/// {
- ///   "name": "t",
-  ///  "email": "żurekzupa.com",
-  ///  "phone": "456123123",
- ////  "purpose": "t"
-//}
