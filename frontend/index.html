@@ -54,23 +54,23 @@
         const response = await fetch(health);
         if (response.ok){
             const data = await response.json();
-            const dane = data.data[0];
             console.log(data)
             if (type = "/records")
             {
             if (newid == 0)
             {
-                wynikk1.innerText = dane.total;
-                wynikk2.innerText = dane.limit;
-                wynikk3.innerText = dane.page;
+                wynikk1.innerText = data.total;
+                wynikk2.innerText = data.limit;
+                wynikk3.innerText = data.page;
             }
             else{
+                const dane = data.data[0];
                 iname.value = dane.name;
                 iemail.value = dane.email;
                 iphone.value = dane.phone;
                 ipurpose.value = dane.purpose;
             }
-            console.log(data.data)
+            console.log(data.data[0])
             }
         }
     }
