@@ -54,15 +54,15 @@
         const response = await fetch(health);
         if (response.ok){
             const data = await response.json();
-            const dane = data[0];
+            const dane = data.data[0];
             console.log(data)
             if (type = "/records")
             {
             if (newid == 0)
             {
-                wynikk1.innerText = data.total;
-                wynikk2.innerText = data.limit;
-                wynikk3.innerText = data.page;
+                wynikk1.innerText = dane.total;
+                wynikk2.innerText = dane.limit;
+                wynikk3.innerText = dane.page;
             }
             else{
                 iname.value = dane.name;
