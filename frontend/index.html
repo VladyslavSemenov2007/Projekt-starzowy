@@ -60,9 +60,9 @@
             {
             if (newid == 0)
             {
-                wynikk1.innerText = dane.total;
-                wynikk2.innerText = dane.limit;
-                wynikk3.innerText = dane.page;
+                wynikk1.innerText = data.total;
+                wynikk2.innerText = data.limit;
+                wynikk3.innerText = data.page;
             }
             else{
                 iname.value = dane.name;
@@ -70,7 +70,7 @@
                 iphone.value = dane.phone;
                 ipurpose.value = dane.purpose;
             }
-            console.log(data.data)
+            console.log(data.data[0])
             }
         }
     }
