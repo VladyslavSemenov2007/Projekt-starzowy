@@ -54,6 +54,7 @@
         const response = await fetch(health);
         if (response.ok){
             const data = await response.json();
+            const dane = data[0];
             console.log(data)
             if (type = "/records")
             {
@@ -64,10 +65,10 @@
                 wynikk3.innerText = data.page;
             }
             else{
-                iname.value = data.name;
-                iemail.value = data.email;
-                iphone.value = data.phone;
-                ipurpose.value = data.purpose;
+                iname.value = dane.name;
+                iemail.value = dane.email;
+                iphone.value = dane.phone;
+                ipurpose.value = dane.purpose;
             }
             console.log(data.data)
             }
