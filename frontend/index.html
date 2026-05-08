@@ -1,79 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Document</title> 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        span {color : blue}
-        div {color: red;font-family: Georgia, 'Times New Roman', Times, serif;}
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GDPR Records</title>
 </head>
 <body>
-    <div>
-      <button onclick="klik('/records')">records</button>
-        
-      <input type="number" value=1 id="pages">
-      <input type="number" value=10 id="limit">
-      <input type="text" value="null" id="id">
-      <input type="number" value=1 id="newid">
-    </div>
-    <div id="wynik">null</div>
-    <div id="response1">null</div>
-    <div id="response2">null</div>
-    <div id="response3">null</div>
-    <div id="add record">
-        <div id="name"><p>imie</p><input type="text" name="imie" id="iname"></div>
-        <div id="email"><p>email</p><input type="email" name="email" id="iemail"></div>
-        <div id="phone"><p>telefon</p><input type="number" name="telefone" id="iphone"></div>
-        <div id="purpose"><p>cel pszetwarzania</p><input type="text" name="cel pszetwarzania" id="ipurpose"></div>
-        <input type="button" value="send" />
-    </div>
+
+  <nav>
+    <a href="index.html">Records</a>
+    <a href="login.html">Login</a>
+    <a href="my-data.html">My Data</a>
+    <a href="consents.html">Consents</a>
+    <a href="admin.html">Admin</a> <!-- TODO: show only for admin role -->
+    <a href="privacy.html">Privacy</a>
+  </nav>
+
+  <h1>Records</h1>
+
+  <div id="error-message"></div>
+
+  <section>
+    <a href="record-form.html">
+      <button type="button">+ Add Record</button>
+    </a>
+  </section>
+
+  <section>
+    <label for="search-input">Search</label>
+    <input
+      type="text"
+      id="search-input"
+      placeholder="Search by name, email, purpose..."
+    />
+  </section>
+
+  <section>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Purpose</th>
+          <th>Created at</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="records-table-body">
+        <tr>
+          <td colspan="6">Loading...</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="pagination">
+    <button type="button" id="prev-btn">Previous</button>
+    <span id="page-info">Page 1</span>
+    <button type="button" id="next-btn">Next</button>
+  </section>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/records.js"></script>
+
 </body>
 </html>
-<script>
-    const API_URL = "https://gdpr-backend-c6cphvg2c9g0bzbu.polandcentral-01.azurewebsites.net/api";
-    const wynikk = document.getElementById("wynik");
-    const wynikk1 = document.getElementById("response1");
-    const wynikk2 = document.getElementById("response2");
-    const wynikk3 = document.getElementById("response3");
-    const iname = document.getElementById("iname");
-    const iemail = document.getElementById("iemail");
-    const iphone = document.getElementById("iphone");
-    const ipurpose = document.getElementById("ipurpose");
-    async function klik(type)
-    {
-        const pages = document.getElementById("pages").value;
-        const limit = document.getElementById("limit").value;
-        const newid = document.getElementById("newid").value;
-        const idd = document.getElementById("id").value;
-        if (newid == 0){type = type + "?pages=" + pages + "&limit=" + limit;}
-        else{ type = type + "/" + idd;   }
-
-        wynikk.innerText = type;
-        const health = API_URL + type;
-        const response = await fetch(health);
-        if (response.ok){
-            const data = await response.json();
-            console.log(data)
-            if (type = "/records")
-            {
-            if (newid == 0)
-            {
-                wynikk1.innerText = data.total;
-                wynikk2.innerText = data.limit;
-                wynikk3.innerText = data.page;
-            }
-            else{
-                const dane = data.data;
-                console.log(dane,"AAAA");
-                iname.value = dane.name;
-                iemail.value = dane.email;
-                iphone.value = dane.phone;
-                ipurpose.value = dane.purpose;
-            }
-            console.log(data.data)
-            }
-        }
-    }
-</script>
