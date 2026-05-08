@@ -24,6 +24,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4 # checkout repository so workflow has acces
 
+      - name: Generate config.js 
+        run: |
+           echo "window.APP_CONFIG = { API_URL: '${{ vars.API_URL }}' };" > frontend/js/config.js
       - name: Setup Pages
         uses: actions/configure-pages@v4 #extract metadata and domena
 
