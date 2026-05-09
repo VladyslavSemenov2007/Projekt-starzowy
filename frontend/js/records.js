@@ -4,8 +4,9 @@ async function loadRecords() {
   tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
 
   try {
+    console.log("loading");
     const response = await fetchWithAuth('/records');
-
+    console.log("loaded");
     if (!response.ok) {
       throw new Error(`Server error: ${response.status}`);
     }
@@ -16,7 +17,7 @@ async function loadRecords() {
       tbody.innerHTML = '<tr><td colspan="6">No records found</td></tr>';
       return;
     }
-    tbody.innerHTML = records.map(record => `
+    tbody.innerHTML = records.data.map(record => `
       <tr>
         <td>${escapeHtml(record.name)}</td>
         <td>${escapeHtml(record.email)}</td>
