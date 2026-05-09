@@ -6,7 +6,7 @@ async function fetchWithAuth(endpoint, options = {}) {
   const headers = {
     'Content-Type': 'application/json',
     ...(token ? { 'Authorization': 'Bearer ${token}' } : {}),
-    ...options.headers,
+    ...options.headers
   };
 
   const response = await fetch(`${API_URL}${endpoint}`, {

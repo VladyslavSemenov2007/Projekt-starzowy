@@ -18,7 +18,7 @@ async function loadRecords() {
       return;
     }
 
-    tbody.innerHTML = records.map(record => `
+    tbody.innerHTML = records.data.map(record => `
       <tr>
         <td>${escapeHtml(record.name)}</td>
         <td>${escapeHtml(record.email)}</td>
