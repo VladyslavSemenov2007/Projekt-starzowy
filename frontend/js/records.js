@@ -1,5 +1,5 @@
 async function loadRecords() {
-    console.log("hellow world!!!")
+  console.log("hellow world!!!")
   const tbody = document.getElementById('records-table-body');
 
   tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
@@ -33,7 +33,7 @@ async function loadRecords() {
     `).join('');
 
   } catch (error) {
-    tbody.innerHTML = <tr><td colspan="6">Error: ${error.message}</td></tr>;
+    tbody.innerHTML = '<tr><td colspan="6">Error: ${error.message}</td></tr>';
   }
 }
 
