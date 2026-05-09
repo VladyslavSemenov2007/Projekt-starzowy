@@ -11,13 +11,17 @@ async function loadRecords() {
       throw new Error(`Server error: ${response.status}`);
     }
 
-    const records = await response.json();
+    const result = await response.json();
+    const records = result.data;
+    const total = result.total;
+    const page = result.page;
+    const limit = result.limit;
 
     if (records.length === 0) {
       tbody.innerHTML = '<tr><td colspan="6">No records found</td></tr>';
       return;
     }
-    tbody.innerHTML = records.data.map(record => `
+    tbody.innerHTML = records.map(record => `
       <tr>
         <td>${escapeHtml(record.name)}</td>
         <td>${escapeHtml(record.email)}</td>
