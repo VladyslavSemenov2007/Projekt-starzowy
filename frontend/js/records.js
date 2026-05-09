@@ -16,7 +16,7 @@ async function loadRecords() {
       tbody.innerHTML = '<tr><td colspan="6">No records found</td></tr>';
       return;
     }
-    console.log("doszedlem do mapowania!!!")
+    console.log("doszedlem do mapowania!!!");
     tbody.innerHTML = records.data.map(record => `
       <tr>
         <td>${escapeHtml(record.name)}</td>
@@ -30,7 +30,7 @@ async function loadRecords() {
         </td>
       </tr>
     `).join('');
-    console.log("po mapowaniu")
+    console.log("po mapowaniu");
 
   } catch (error) {
     tbody.innerHTML = '<tr><td colspan="6">Error: ${error.message}</td></tr>';
