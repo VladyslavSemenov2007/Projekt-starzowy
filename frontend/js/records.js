@@ -1,5 +1,4 @@
 async function loadRecords() {
-  console.log("hellow world!!!")
   const tbody = document.getElementById('records-table-body');
 
   tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
