@@ -30,7 +30,7 @@ async function loadRecords() {
         <td>${new Date(record.created_at).toLocaleDateString()}</td>
         <td>
           <a href="record-form.html?id=${record.id}">Edit</a>
-          <button onclick="deleteRecord(${record.id})">Delete</button>
+          <button onclick="deleteRecord('${record.id}')">Delete</button>
         </td>
       </tr>
     `).join('');
