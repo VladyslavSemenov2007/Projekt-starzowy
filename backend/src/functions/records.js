@@ -14,7 +14,7 @@ app.http('records', {
     try {
       console.log(request.query); //delete
       const page = parseInt(request.query.get('page')) || 1;
-      const limit = parseInt(request.query.get('limit')) || 10;
+      const limit = parseInt(request.query.get('limit')) || 30;
       const offset = (page - 1) * limit;
 
       const pool = await getPool();
