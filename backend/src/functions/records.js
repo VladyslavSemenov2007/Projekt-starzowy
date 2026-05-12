@@ -15,6 +15,7 @@ app.http('records', {
       console.log(request.query); //delete
       const page = parseInt(request.query.get('page')) || 1;
       const limit = parseInt(request.query.get('limit')) || 10;
+      const search = request.query.get('search') || null;
       const offset = (page - 1) * limit;
 
       const pool = await getPool();
@@ -22,14 +23,20 @@ app.http('records', {
       const result = await pool
         .request()
         .input('offset', sql.Int, offset)
+        .input('search', sql.NVarChar(255), search ? `%${search}%` : '%')
         .input('limit', sql.Int, limit).query(`
           SELECT * FROM records
-            ORDER BY created_at
-            OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`);
+          WHERE name LIKE @search OR email LIKE @search OR purpose LIKE @search
+          ORDER BY created_at
+        OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`);
 
       const totalResult = await pool
         .request()
-        .query('SELECT COUNT(*) as count FROM records');
+        .input('search', sql.NVarChar(255), search ? `%${search}%` : '%')
+          .query(`
+    SELECT COUNT(*) as count FROM records
+    WHERE name LIKE @search OR email LIKE @search OR purpose LIKE @search
+    `);
       const total = totalResult.recordset[0].count;
 
       return {

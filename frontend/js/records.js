@@ -1,11 +1,12 @@
-async function loadRecords() {
+async function loadRecords(search='') {
   const tbody = document.getElementById('records-table-body');
 
   tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
 
   try {
     console.log("loading");
-    const response = await fetchWithAuth('/records');
+    const url = search ? `/records?search=${encodeURIComponent(search)}` : '/records';
+    const response = await fetchWithAuth(url);
     console.log("loaded");
     if (!response.ok) {
       throw new Error(`Server error: ${response.status}`);
@@ -60,5 +61,8 @@ async function deleteRecord(id) {
     alert(`Failed to delete: ${error.message}`);
   }
 }
+document.getElementById('search-input').addEventListener('input', (e) => {
+  loadRecords(e.target.value.trim());
+});
 
 loadRecords();
