@@ -18,6 +18,7 @@ async function loadRecord() {
         if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
         const record = await response.json();
+        console.log(record);
         document.getElementById('name').value = record.data.name ?? '';
         document.getElementById('email').value = record.data.email ?? '';
         document.getElementById('phone').value = record.data.phone ?? '';
@@ -41,7 +42,7 @@ form.addEventListener('submit', async (e) => {
     try {
         const response = isEditMode
             ? await fetchWithAuth(`/records/${id}`, { method: 'PUT', body: JSON.stringify(body) })
-            : await fetchWithAuth('/records', { method: 'POST', body: JSON.stringify(body) });
+            : await fetchWithAuth('/records', { method: 'POST', body: JSON.stringify(body) }); // 44 bląd
 
         if (response.status === 400) {
             const data = await response.json();
