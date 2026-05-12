@@ -98,7 +98,7 @@ function isValidPhoneNumber(value) {
 }
 
 function IsValidEmail(value) {
-  return /^[a-żA-Ż0-9]+\@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test(value);
+  return /^[a-żA-Ż0-9._-]+\@[a-zA-Z0-9._-]+\.[a-zA-Z-9._-]{2,}$/.test(value);
 }
 function IsValidPurpose(value) {
   if (value == null) {
@@ -116,16 +116,16 @@ function IsValidName(value) {
 function validation(b) {
   const errors = [];
   if (!IsValidEmail(b.email)) {
-    errors.push('email: invalid or missing');
+    errors.push('email: invalid or missing ');
   }
   if (!IsValidName(b.name)) {
-    errors.push('name: invalid or missing');
+    errors.push('name: invalid or missing (length 2-255)');
   }
   if (!isValidPhoneNumber(b.phone)) {
-    errors.push('phone: invalid or missing');
+    errors.push('phone: invalid (starts with +,numbers length 9-50)');
   }
   if (!IsValidPurpose(b.purpose)) {
-    errors.push('purpose: invalid or missing');
+    errors.push('purpose: invalid or missing (length 2-500)');
   }
   return errors;
 }
@@ -155,8 +155,7 @@ app.http('createRecord', {
         .input('purpose', sql.NVarChar(500), purpose).query(`
           INSERT INTO records (name, email, phone, purpose)
           OUTPUT INSERTED.*
-          VALUES (@name, @email, @phone, @purpose)
-        `);
+          VALUES (@name, @email, @phone, @purpose)`);
       if (result.recordset.length === 0) {
         return {
           status: 404,
