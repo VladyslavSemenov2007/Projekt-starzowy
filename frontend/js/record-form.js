@@ -18,7 +18,6 @@ async function loadRecord() {
         if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
         const record = await response.json();
-        console.log(record);
         document.getElementById('name').value = record.data.name ?? '';
         document.getElementById('email').value = record.data.email ?? '';
         document.getElementById('phone').value = record.data.phone ?? '';
