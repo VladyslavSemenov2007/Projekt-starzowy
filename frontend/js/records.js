@@ -30,6 +30,8 @@ async function loadRecords(search='') {
         <td>${escapeHtml(record.purpose)}</td>
         <td>${new Date(record.created_at).toLocaleDateString()}</td>
         <td>
+          <a href="${API_URL}/records/${record.id}/export">JSON</a>
+          <a href="${API_URL}/records/${record.id}/export?format=csv">CSV</a>
           <a href="record-form.html?id=${record.id}">Edit</a>
           <button onclick="deleteRecord('${record.id}')">Delete</button>
         </td>

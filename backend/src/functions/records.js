@@ -97,6 +97,61 @@ app.http('getRecordById', {
   },
 });
 
+app.http('ExportByID', {
+  methods: ['GET'],
+  route: 'records/{id}/export',
+  authLevel: 'anonymous',
+  handler: async (request, context) => {
+    try {
+      const id = request.params.id;
+      if (!isGuid(id)) {
+        return {
+          status: 400,
+          jsonBody: { error: 'Uid is not valid' },
+        };
+      }
+      const pool = await getPool();
+      const result = await pool
+          .request()
+          .input('id', sql.UniqueIdentifier, id)
+          .query('SELECT * FROM records WHERE id = @id');
+      if (result.recordset.length === 0) {
+        return {
+          status: 404,
+          jsonBody: { error: 'Record not found' },
+        };
+      }
+      const record = result.recordset[0];
+      const format = request.query.get('format') || 'json';
+      if (format === 'csv') {
+        const csv = `id,name,email,phone,purpose,created_at\n"${record.id}","${record.name}","${record.email}","${record.phone ?? ''}","${record.purpose}","${record.created_at}"`;
+        return {
+          status: 200,
+          body: csv,
+          headers: {
+            'Content-Disposition': 'attachment; filename="record-{id}.csv"',
+            'Content-Type': 'text/csv',
+          },
+        };
+      }
+      return {
+        status: 200,
+        jsonBody: { data: record },
+        headers: {
+          'Content-Disposition': 'attachment; filename="record-{id}.json"',
+          'Content-Type': 'application/json'
+        }
+      };
+    } catch (error) {
+      context.log(`Error in records2: ${error.message}`);
+      return {
+        status: 500,
+        jsonBody: { error: 'Internal server error' },
+      };
+    }
+  },
+});
+
 function isValidPhoneNumber(value) {
   if (value == null) {
     return true;
