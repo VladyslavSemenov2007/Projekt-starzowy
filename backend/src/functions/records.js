@@ -129,7 +129,7 @@ app.http('ExportByID', {
           status: 200,
           body: csv,
           headers: {
-            'Content-Disposition': 'attachment; filename="record-{id}.csv"',
+            'Content-Disposition': `attachment; filename=record-${id}.csv`,
             'Content-Type': 'text/csv',
           },
         };
@@ -138,7 +138,7 @@ app.http('ExportByID', {
         status: 200,
         jsonBody: { data: record },
         headers: {
-          'Content-Disposition': 'attachment; filename="record-{id}.json"',
+          'Content-Disposition': `attachment; filename=record-${id}.json`,
           'Content-Type': 'application/json'
         }
       };
