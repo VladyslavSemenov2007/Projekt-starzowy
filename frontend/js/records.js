@@ -1,4 +1,7 @@
-let memory = [];
+let memorys = []
+let pageD = 0;
+let searchTimeout;
+let TOTAL = 0;
 
 async function loadRecords() {
   const tbody = document.getElementById('records-table-body');
@@ -16,6 +19,7 @@ async function loadRecords() {
     const result = await response.json();
     const records = result.data;
     const total = result.total;
+    TOTAL = total;
 
     // pagination controls
 
@@ -76,9 +80,6 @@ const state = {
 document.getElementById("page").value = state.page;
 document.getElementById("limit").value = state.limit;
 
-let memorys = []
-let pageD = 0;
-let searchTimeout;
 
 document.getElementById('search-input').addEventListener('input', (e) => {
   clearTimeout(searchTimeout);
@@ -107,9 +108,19 @@ function nextpage(plus) {
   const paged = document.getElementById("page");
   if (plus)
   {
+    let times = TOTAL/state.limit;
+    console.log(times,"times to page");
+    if (paged.value==times)
+    {
+      return;
+    }
     paged.value ++;
   }
   else{
+    if (paged.value == 0)
+    {
+      return;
+    }
     paged.value --;
   }
   state.page = paged.value;
