@@ -109,8 +109,9 @@ function nextpage(plus) {
   if (plus)
   {
     let times = TOTAL/state.limit;
+    times --;
     console.log(times,"times to page");
-    if (paged.value==times)
+    if (paged.value>times)
     {
       return;
     }
