@@ -6,6 +6,8 @@ const errorDiv = document.getElementById('error-message');
 const formTitle = document.getElementById('form-title');
 const submitBtn = document.getElementById('submit-btn');
 
+let memory = [];
+
 if (isEditMode) {
     formTitle.textContent = 'Edit Record';
     submitBtn.textContent = 'Update';

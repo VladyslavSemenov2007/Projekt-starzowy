@@ -1,22 +1,24 @@
-async function loadRecords(search='') {
+let memory = [];
+
+async function loadRecords() {
   const tbody = document.getElementById('records-table-body');
-
-  tbody.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
-
   try {
-    console.log("loading");
-    const url = search ? `/records?search=${encodeURIComponent(search)}` : '/records';
-    const response = await fetchWithAuth(url);
-    console.log("loaded");
-    if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
-    }
-
+    // ??? ???
+    const params = new URLSearchParams({
+      page: state.page,
+      limit: state.limit,
+      ...(state.search ? { search: state.search } : {}),
+    });
+    console.log("loading records")
+    const response = await fetchWithAuth(`/records?${params}`);
+    if (!response.ok) throw new Error(`Server error: ${response.status}`);
+    console.log("loaded records")
     const result = await response.json();
     const records = result.data;
     const total = result.total;
-    const page = result.page;
-    const limit = result.limit;
+
+    // pagination controls
+
 
     if (records.length === 0) {
       tbody.innerHTML = '<tr><td colspan="6">No records found</td></tr>';
@@ -39,6 +41,7 @@ async function loadRecords(search='') {
     `).join('');
 
   } catch (error) {
+    console.log("failed")
     tbody.innerHTML = '<tr><td colspan="6">Error: ${error.message}</td></tr>';
   }
 }
@@ -63,8 +66,74 @@ async function deleteRecord(id) {
     alert(`Failed to delete: ${error.message}`);
   }
 }
+
+const state = {
+  page: 1,
+  limit: 5,
+  search: '',
+};
+
+document.getElementById("page").value = state.page;
+document.getElementById("limit").value = state.limit;
+
+let memorys = []
+let pageD = 0;
+let searchTimeout;
+
 document.getElementById('search-input').addEventListener('input', (e) => {
-  loadRecords(e.target.value.trim());
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => {
+    memorys.push(e.target.value.trim());
+    pageD = memorys.length-1;
+    state.search = memorys[pageD];
+    state.page = 1;
+    const numbers = document.getElementById("numberpage");
+    numbers.innerHTML = "PAGE" + memorys.length;
+    loadRecords();
+  }, 500);
 });
+
+document.getElementById('limit').addEventListener('input', (e) => {
+  state.limit = document.getElementById("limit").value;
+  loadRecords();
+});
+
+document.getElementById('page').addEventListener('input', (e) => {
+  state.page = document.getElementById("page").value;
+  loadRecords();
+});
+
+function nextpage(plus) {
+  const paged = document.getElementById("page");
+  if (plus)
+  {
+    paged.value ++;
+  }
+  else{
+    paged.value --;
+  }
+  state.page = paged.value;
+  loadRecords();
+}
+
+function paging(plus)
+{
+  if (plus)
+  {
+    pageD ++;
+  }
+  else{
+    pageD --;
+  }
+  const real = pageD+1
+  state.search = memorys[pageD];
+  const numbers = document.getElementById("numberpage");
+  const searcher = document.getElementById("search-input");
+  numbers.innerHTML = "PAGE" + real;
+  searcher.value = state.search;
+  loadRecords();
+}
+
+// pagination
 
 loadRecords();

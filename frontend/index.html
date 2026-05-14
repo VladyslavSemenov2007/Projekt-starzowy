@@ -65,10 +65,21 @@
     </table>
   </section>
 
+
   <section id="pagination">
-    <button type="button" id="prev-btn">Previous</button>
-    <span id="page-info">Page 1</span>
-    <button type="button" id="next-btn">Next</button>
+    <label for="limit">state limit</label>
+    <input type="number" value="10" id="limit" >
+    <button type="button" onclick="nextpage(false)" id="+page">-page</button>
+    <label for="page">state page</label>
+    <input type="number" value="1" id="page" >
+    <button type="button" onclick="nextpage(true)" id="-page">+page</button>
+  </section>
+
+  <section id="search-history">
+    <div>SEARCH HISTORY</div>
+    <button type="button" onclick="paging(false)" id="prev-btn">Previous search</button>
+    <div id="numberpage">PAGE 0</div>
+    <button type="button" onclick="paging(true)" id="next-btn">Next search</button>
   </section>
 
   <script src="js/config.js"></script>
